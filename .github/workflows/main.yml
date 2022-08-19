@@ -1,0 +1,83 @@
+name: Elements  
+on: [push]
+jobs:
+  deploy_source:
+    name: Deploy API Using Lambda
+    strategy:
+      matrix:
+        node-version: [12.x]
+    runs-on: ubuntu-latest
+    steps:
+    
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and build
+        run: |
+          npm ci
+          npm run build --if-present
+        env:
+          CI: true
+
+      - name: /elements get lambda deploy zip
+        uses: postman-open-technologies/videos@main
+        with:
+            args: zip -qq -r m-s-element-g.zip elements/get/index.js node_modules
+      - name: videos get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-element-g
+            zip_file: m-s-element-g.zip
+      - name: /elements post lambda deploy zip
+        uses: postman-open-technologies/videos@main
+        with:
+            args: zip -qq -r m-s-element-po.zip elements/post/index.js node_modules
+      - name: videos get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-element-po
+            zip_file: m-s-element-po.zip
+      - name: /elements/{element_id} get lambda deploy zip
+        uses: postman-open-technologies/videos@main
+        with:
+            args: zip -qq -r m-s-elements-element-g.zip elements/element_id/get/index.js node_modules
+      - name: videos get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-g
+            zip_file: m-s-elements-element-g.zip
+      - name: /elements/{element_id} put lambda deploy zip
+        uses: postman-open-technologies/videos@main
+        with:
+            args: zip -qq -r m-s-elements-element-pu.zip elements/element_id/put/index.js node_modules
+      - name: videos get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-pu
+            zip_file: m-s-elements-element-pu.zip
+      - name: /elements/{element_id} delete lambda deploy zip
+        uses: postman-open-technologies/videos@main
+        with:
+            args: zip -qq -r m-s-elements-element-d.zip elements/element_id/delete/index.js node_modules
+      - name: videos get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-d
+            zip_file: m-s-elements-element-d.zip          
