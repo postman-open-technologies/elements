@@ -24,27 +24,27 @@ jobs:
       - name: /elements get lambda deploy zip
         uses: postman-open-technologies/videos@main
         with:
-            args: zip -qq -r m-s-element-g.zip elements/get/index.js node_modules
+            args: zip -qq -r m-s-elements-g.zip elements/get/index.js node_modules
       - name: videos get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
             aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
             aws_region: us-west-1
-            function_name: m-s-element-g
-            zip_file: m-s-element-g.zip
+            function_name: m-s-elements-g
+            zip_file: m-s-elements-g.zip
       - name: /elements post lambda deploy zip
         uses: postman-open-technologies/videos@main
         with:
-            args: zip -qq -r m-s-element-po.zip elements/post/index.js node_modules
+            args: zip -qq -r m-s-elements-po.zip elements/post/index.js node_modules
       - name: videos get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
             aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
             aws_region: us-west-1
-            function_name: m-s-element-po
-            zip_file: m-s-element-po.zip
+            function_name: m-s-elements-po
+            zip_file: m-s-elements-po.zip
       - name: /elements/{element_id} get lambda deploy zip
         uses: postman-open-technologies/videos@main
         with:
