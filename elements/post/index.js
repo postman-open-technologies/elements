@@ -11,41 +11,59 @@ exports.handler = vandium.generic()
     database : process.env.database
     });
 
-    var sql = 'INSERT INTO elements(';
-    
-    var total_properties = Object.keys(event).length;
-    
-    var property_count = 1;
-    for (const [key, value] of Object.entries(event)) {
-      sql += key;
-      if(property_count != total_properties){
-        sql += ',';
-      }
-      property_count++;
-    }
+    var sql = "SELECT * FROM elements WHERE name = '" + event.name + "'";
+    connection.query(sql, function (error, results, fields) {    
+
+      if(results.length == 0){
+          
+        var sql = 'INSERT INTO elements(';
+        
+        var total_properties = Object.keys(event).length;
+        
+        var property_count = 1;
+        for (const [key, value] of Object.entries(event)) {
+          sql += key;
+          if(property_count != total_properties){
+            sql += ',';
+          }
+          property_count++;
+        }
+          
+        sql += ')';
+
+        sql += ' VALUES(';
+        
+        var property_count = 1;
+        for (const [key, value] of Object.entries(event)) {
+          sql += connection.escape(value);
+          if(property_count != total_properties){
+            sql += ',';
+          }
+          property_count++;
+        }
+
+        sql += ")";
       
-    sql += ')';
+        connection.query(sql, function (error, results, fields) {
+      
+          var response = {};
+          response['id'] = results.insertId;
+          response['name'] = event.name;
 
-    sql += ' VALUES(';
-    
-    var property_count = 1;
-    for (const [key, value] of Object.entries(event)) {
-      sql += connection.escape(value);
-      if(property_count != total_properties){
-        sql += ',';
+          callback( null, response );
+
+        });
+
       }
-      property_count++;
-    }
+      else{
 
-    sql += ")";
-  
-    connection.query(sql, function (error, results, fields) {
-  
-      var response = {};
-      response['id'] = results.insertId;
-      response['name'] = event.name;
+        var response = {};
+        response['id'] = results.id;
+        response['name'] = event.name;
 
-      callback( null, response );
+        callback( null, response );        
+
+      }
 
     });
 });
