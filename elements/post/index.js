@@ -56,9 +56,11 @@ exports.handler = vandium.generic()
 
       }
       else{
+        
+        var element_id = results[0].id;
 
         var response = {};
-        response['id'] = results.id;
+        response['id'] = element_id;
         response['name'] = event.name;
 
         callback( null, response );        

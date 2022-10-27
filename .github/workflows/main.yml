@@ -22,10 +22,10 @@ jobs:
           CI: true
 
       - name: /elements get lambda deploy zip
-        uses: postman-open-technologies/videos@main
+        uses: postman-open-technologies/elements@main
         with:
             args: zip -qq -r m-s-elements-g.zip elements/get/index.js node_modules
-      - name: videos get lambda deploy
+      - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -34,10 +34,10 @@ jobs:
             function_name: m-s-elements-g
             zip_file: m-s-elements-g.zip
       - name: /elements post lambda deploy zip
-        uses: postman-open-technologies/videos@main
+        uses: postman-open-technologies/elements@main
         with:
             args: zip -qq -r m-s-elements-po.zip elements/post/index.js node_modules
-      - name: videos get lambda deploy
+      - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -46,10 +46,10 @@ jobs:
             function_name: m-s-elements-po
             zip_file: m-s-elements-po.zip
       - name: /elements/{element_id} get lambda deploy zip
-        uses: postman-open-technologies/videos@main
+        uses: postman-open-technologies/elements@main
         with:
             args: zip -qq -r m-s-elements-element-g.zip elements/element_id/get/index.js node_modules
-      - name: videos get lambda deploy
+      - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -58,10 +58,10 @@ jobs:
             function_name: m-s-elements-element-g
             zip_file: m-s-elements-element-g.zip
       - name: /elements/{element_id} put lambda deploy zip
-        uses: postman-open-technologies/videos@main
+        uses: postman-open-technologies/elements@main
         with:
             args: zip -qq -r m-s-elements-element-pu.zip elements/element_id/put/index.js node_modules
-      - name: videos get lambda deploy
+      - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -70,10 +70,10 @@ jobs:
             function_name: m-s-elements-element-pu
             zip_file: m-s-elements-element-pu.zip
       - name: /elements/{element_id} delete lambda deploy zip
-        uses: postman-open-technologies/videos@main
+        uses: postman-open-technologies/elements@main
         with:
             args: zip -qq -r m-s-elements-element-d.zip elements/element_id/delete/index.js node_modules
-      - name: videos get lambda deploy
+      - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
@@ -81,3 +81,39 @@ jobs:
             aws_region: us-west-1
             function_name: m-s-elements-element-d
             zip_file: m-s-elements-element-d.zip          
+      - name: /elements/{element_id}/tags get lambda deploy zip
+        uses: postman-open-technologies/elements@main
+        with:
+            args: zip -qq -r m-s-elements-element-tags-g.zip elements/element_id/tags/get/index.js node_modules
+      - name: elements get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-tags-g
+            zip_file: m-s-elements-element-tags-g.zip
+      - name: /elements/{element_id}/tags post lambda deploy zip
+        uses: postman-open-technologies/elements@main
+        with:
+            args: zip -qq -r m-s-elements-element-tags-po.zip elements/element_id/tags/post/index.js node_modules
+      - name: elements get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-tags-po
+            zip_file: m-s-elements-element-tags-po.zip
+      - name: /elements/{element_id}/tags/{tag_id} delete lambda deploy zip
+        uses: postman-open-technologies/elements@main
+        with:
+            args: zip -qq -r m-s-elements-element-tags-tag-d.zip elements/element_id/tags/tag_id/delete/index.js node_modules
+      - name: elements get lambda deploy
+        uses: appleboy/lambda-action@master
+        with:
+            aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+            aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+            aws_region: us-west-1
+            function_name: m-s-elements-element-tags-tag-d
+            zip_file: m-s-elements-element-tags-tag-d.zip            
