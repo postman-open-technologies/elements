@@ -120,12 +120,12 @@ jobs:
       - name: /elements/{element_id}/merge/{merge_id} post lambda deploy zip
         uses: postman-open-technologies/elements@main
         with:
-            args: zip -qq -r m-s-elements-element-merge-merge-p.zip elements/element_id/merge/merge_id/post/index.js node_modules
+            args: zip -qq -r m-s-elements-element-merge-merge-po.zip elements/element_id/merge/merge_id/post/index.js node_modules
       - name: elements get lambda deploy
         uses: appleboy/lambda-action@master
         with:
             aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
             aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
             aws_region: us-west-1
-            function_name: m-s-elements-element-merge-merge-p
-            zip_file: m-s-elements-element-merge-merge-p.zip             
+            function_name: m-s-elements-element-merge-merge-po
+            zip_file: m-s-elements-element-merge-merge-po.zip             
