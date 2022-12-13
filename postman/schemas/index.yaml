@@ -1,0 +1,574 @@
+openapi: 3.0.0
+info:
+  description: This is of the elements API.
+  version: v1.0.0
+  title: Elements
+paths:
+  /elements:
+    get:
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Elements"
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-g/invocations
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.querystring.page: method.request.querystring.page
+          integration.request.querystring.limit: method.request.querystring.limit
+        requestTemplates:
+          application/json: |-
+            {
+                "page" : "$input.params('page')",
+                "limit" : "$input.params('limit')",
+                "search" : "$input.params('search')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    post:
+      requestBody:
+        $ref: "#/components/requestBodies/Element"
+      responses:
+        "201":
+          description: 201 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Element"
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-po/invocations
+        responses:
+          default:
+            statusCode: "201"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: when_no_match
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    options:
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Securit\
+                y-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+  "/elements/{element_id}":
+    get:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Element"
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-g/invocations
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    put:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Element"
+      responses:
+        "204":
+          description: 204 response
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-pu/invocations
+        responses:
+          default:
+            statusCode: "204"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')",
+                "body" : $input.json('$') 
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    delete:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 204 response
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-d/invocations
+        responses:
+          default:
+            statusCode: "204"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    options:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,OPTIONS,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Securit\
+                y-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+  "/elements/{element_id}/merge/{merge_id}":
+    post:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: merge_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 204 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-merge-merge-d/invocations
+        responses:
+          default:
+            statusCode: "201"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+          integration.request.path.merge_id: method.request.path.merge_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')",
+                "merge_id" : "$input.params('merge_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    options:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: merge_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Element"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Securit\
+                y-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+  "/elements/{element_id}/tags":
+    get:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tags"
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-tags-g/invocations
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    post:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+        required: true
+      responses:
+        "201":
+          description: 201 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-tags-po/invocations
+        responses:
+          default:
+            statusCode: "201"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')",
+                "tag_id" : "$input.json('$.tag_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    options:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Securit\
+                y-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+  "/elements/{element_id}/tags/{tag_id}":
+    delete:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tag_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 204 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+      security:
+        - api_key: []
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:780401591112:function:m-s-elements-element-tags-tag-d/invocations
+        responses:
+          default:
+            statusCode: "204"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.tag_id: method.request.path.tag_id
+          integration.request.path.element_id: method.request.path.element_id
+        requestTemplates:
+          application/json: |-
+            {
+                "element_id" : "$input.params('element_id')",
+                "tag_id" : "$input.params('tag_id')"
+            }
+        passthroughBehavior: when_no_templates
+        contentHandling: CONVERT_TO_TEXT
+        type: aws
+    options:
+      parameters:
+        - name: element_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tag_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Element"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'DELETE,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Securit\
+                y-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+servers:
+  - url: https://3b2iqi9px6.execute-api.us-west-1.amazonaws.com/staging
+components:
+  requestBodies:
+    Element:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Element"
+      required: true
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header
+  schemas:
+    Element:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+        collection_id:
+          type: string
+    Tag:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    Elements:
+      type: array
+      items:
+        $ref: "#/components/schemas/Element"
+    Tags:
+      type: array
+      items:
+        $ref: "#/components/schemas/Tag"
